@@ -10,8 +10,6 @@ def index(request):
 
     inputArray = ['djep0','Chris EDEN']
     print(inputArray)
-    summonerNames = body['data']
-    print(summonerNames)
 
     api_key = config('RIOT_KEY')
     response = requests.get('https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/Schayik?api_key=' + api_key)
