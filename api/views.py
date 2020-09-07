@@ -18,9 +18,9 @@ def index(request):
 
 
     dummyData = {
-        'gameCount': 10,
-        'totalKills': 23,
-        'totalDamage': 24,
+        'games': 10,
+        'kills': 23,
+        'damage': 24,
         'ksScoreData': [
             {
                 'summonerName': 'Djep0', 
