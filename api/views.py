@@ -9,7 +9,9 @@ from . import apiFunctions
 def index(request):
 
     inputArray = ['djep0','Chris EDEN']
-    print(input)
+    print(inputArray)
+    summonerNames = body['data']
+    print(summonerNames)
 
     api_key = config('RIOT_KEY')
     response = requests.get('https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/Schayik?api_key=' + api_key)
@@ -33,5 +35,31 @@ def index(request):
         matchDataArray.append(matchData)
 
     print(matchDataArray[0])    
+    print(data)
 
-    return HttpResponse(json.dumps(data))
+
+    dummyData = {
+        'gameCount': 10,
+        'totalKills': 23,
+        'totalDamage': 24,
+        'ksScoreData': [
+            {
+                'summonerName': 'Djep0', 
+                'ksScore': 1, 
+                'kills': 12, 
+                'killPercentage': 32,
+                'damage': 100, 
+                'damagePercentage': 24
+            },
+            {
+                'summonerName': 'Snitsky', 
+                'ksScore': 1.2, 
+                'kills': 34, 
+                'killPercentage': 34,
+                'damage': 123, 
+                'damagePercentage': 51
+            }
+        ]
+    }
+
+    return HttpResponse(json.dumps(dummyData))
