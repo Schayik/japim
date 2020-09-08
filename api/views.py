@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from decouple import config
 import requests
 import json
+import time
+
 
 from . import apiFunctions
 from . import toolbox
@@ -77,7 +79,9 @@ def index(request):
     totalDamage = 0
     
     for matchID in matchesToLoad:
+        start = time.process_time()
         matchData = apiFunctions.Get_MatchData(matchID)
+        print ('find API call time: ', (time.process_time() - start) *1000)
         commonTeam = toolbox.checkSameTeams(matchData['participantIdentities'],matchData['participants'],summonerList)
         if commonTeam:
             pass
@@ -87,6 +91,7 @@ def index(request):
         teamDmg = 0
         teamKills = 0
         statIdsArray = list(map(lambda part: part['participantId'],matchData['participants']))
+        
         for i in range(len(matchData['participants'])):
             if matchData['participants'][i]['teamId'] == commonTeam:
                 teamKills += matchData['participants'][i]['stats']['kills']
@@ -101,6 +106,7 @@ def index(request):
                 summonerObjectIndex = summonerList.index(matchData['participantIdentities'][i]['player']['summonerName'])
                 ksScoreData[summonerObjectIndex].kills += matchData['participants'][i]['stats']['kills']
                 ksScoreData[summonerObjectIndex].damage += matchData['participants'][i]['stats']['totalDamageDealtToChampions']
+        
         totalGames += 1
         totalKills += teamKills
         totalDamage += teamDmg
