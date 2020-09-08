@@ -20,6 +20,17 @@ class ksScoreObject:
         self.killPercentage = self.kills / totalKills
         self.damagePercentage = self.damage / TotalDamage
         self.ksScore = self.killPercentage / self.damagePercentage
+        
+    def ksScoreOutput(self):
+        returnObj = {
+            'summonerName'     : self.summonerName                              ,
+            'ksScore'          : '{:.2f}'.format(self.ksScore)                  ,
+            'kills'            : '{:,}'.format(self.kills)                      ,
+            'killPercentage'   : '{:.2f}%'.format(self.killPercentage*100)      ,
+            'damage'           : '{:,}'.format(self.damage)                     ,
+            'damagePercentage' : '{:.2f}%'.format(self.damagePercentage*100)    ,
+        }
+        return returnObj
 
 def index(request):
 
@@ -103,7 +114,8 @@ def index(request):
     
     for summonerKsObject in ksScoreData:
         summonerKsObject.calculateValues(totalKills,totalDamage)
-        ksScoreDataArray.append(summonerKsObject.__dict__)
+        ksScoreDataArray.append(summonerKsObject.ksScoreOutput())
+        print('testje!',summonerKsObject.ksScoreOutput())
         
     print('ksScoreData3',ksScoreData[0].__dict__)
     
@@ -112,9 +124,9 @@ def index(request):
     print('ksScoreData5',ksScoreDataArray)
     
     realData = {
-        'games': totalGames,
-        'kills': totalKills,
-        'damage': totalDamage,
+        'games': '{:,}'.format(totalGames),
+        'kills': '{:,}'.format(totalKills),
+        'damage': '{:,}'.format(totalDamage),
         'ksScoreData': ksScoreDataArray
     }
 
