@@ -23,7 +23,16 @@ class ksScoreObject:
 
 def index(request):
 
-    inputArray = ['djep0','Chris EDEN']
+    try:
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        inputArray = body['data']
+        print('summoners!',inputArray)
+        
+    except:
+        inputArray = ['djep0','Chris EDEN']
+        pass
+    
     print(inputArray)
 
     #api_key = config('RIOT_KEY')
@@ -43,7 +52,6 @@ def index(request):
         matchlistArray.append(matchlist)
         
     matchesToLoad = set(matchlistArray[0]).intersection(*matchlistArray)
-    
     
     print('matchesToLoad',matchesToLoad)
     print('ksScoreData',ksScoreData[0].__dict__)
@@ -109,9 +117,7 @@ def index(request):
         'damage': totalDamage,
         'ksScoreData': ksScoreDataArray
     }
-    
-    
-    
+
     dummyData = {
         'games': 10,
         'kills': 23,
