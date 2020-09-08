@@ -1,0 +1,1 @@
+web: gunicorn japim_server.wsgi

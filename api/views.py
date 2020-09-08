@@ -22,6 +22,10 @@ def index(request):
 
     inputArray = ['djep0','Chris EDEN']
     print(inputArray)
+
+    #api_key = config('RIOT_KEY')
+    #response = requests.get('https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/Schayik?api_key=' + api_key)
+    #data = response.json()
     
     matchlistArray = []
     ksScoreData = []
