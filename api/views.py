@@ -5,18 +5,21 @@ import requests
 import json
 
 from . import apiFunctions
+from . import toolbox
 
 class ksScoreObject:
     def __init__(self, summonerName):
         self.summonerName       = summonerName
-        self.ksScore            = 0
+        self.ksScore            = 0.0
         self.kills              = 0
-        self.killPercentage     = 0
+        self.killPercentage     = 0.0
         self.damage             = 0
-        self.damagePercentage   = 0
+        self.damagePercentage   = 0.0
         
-    def calculateValues(self):
-        pass
+    def calculateValues(self,totalKills,TotalDamage):
+        self.killPercentage = self.kills / totalKills
+        self.damagePercentage = self.damage / TotalDamage
+        self.ksScore = self.killPercentage / self.damagePercentage
 
 def index(request):
 
@@ -50,51 +53,65 @@ def index(request):
     #print('ksScoreData',json.dumps(ksScoreData[0].__dict__))
     
     #matchDataArray = []
-    totalGames = len(matchesToLoad)
+    totalGames = 0
     totalKills = 0
     totalDamage = 0
     
     for matchID in matchesToLoad:
         matchData = apiFunctions.Get_MatchData(matchID)
-        #matchDataArray.append(matchData)
-        #t1 = list(filter(lambda userData: userData['player']['summonerName'] in summonerList,matchData['participantIdentities']))
-        #print('t1',t1)
-        correctTeam = True
-        teams = []
-        teamDmg = []
-        teamKills = []
+        commonTeam = toolbox.checkSameTeams(matchData['participantIdentities'],matchData['participants'],summonerList)
+        if commonTeam:
+            pass
+        else:
+            continue
+            
+        teamDmg = 0
+        teamKills = 0
+        statIdsArray = list(map(lambda part: part['participantId'],matchData['participants']))
         for i in range(len(matchData['participants'])):
-            if matchData['participants'][i]['teamId'] in teams:
-                teamIndex = teams.index(matchData['participants'][i]['teamId'])
-                teamDmg[teamIndex] += matchData['participants'][i]['stats']['kills']
-                teamDmg[teamIndex] += matchData['participants'][i]['stats']['totalDamageDealtToChampions']
+            if matchData['participants'][i]['teamId'] == commonTeam:
+                teamKills += matchData['participants'][i]['stats']['kills']
+                teamDmg += matchData['participants'][i]['stats']['totalDamageDealtToChampions']
             else:
-                teams.append(matchData['participants'][i]['teamId'])
-                teamDmg.append(matchData['participants'][i]['stats']['kills'])
-                teamKills.append(matchData['participants'][i]['stats']['totalDamageDealtToChampions'])
+                continue
+                
             if matchData['participantIdentities'][i]['player']['summonerName'] in summonerList:
                 participantId = matchData['participantIdentities'][i]['participantId']
-                statIndex = list(map(lambda x: x['participantId'],matchData['participants'])).index(participantId)
+                statIndex = statIdsArray.index(participantId)
+                
                 summonerObjectIndex = summonerList.index(matchData['participantIdentities'][i]['player']['summonerName'])
                 ksScoreData[summonerObjectIndex].kills += matchData['participants'][i]['stats']['kills']
                 ksScoreData[summonerObjectIndex].damage += matchData['participants'][i]['stats']['totalDamageDealtToChampions']
-                
-                if correctTeam == True:
-                    correctTeam = matchData['participants'][i]['teamId']
-                elif correctTeam:
-                    if correctTeam == matchData['participants'][i]['teamId']:
-                        pass
-                    else:
-                        correctTeam = False
-                else:
-                    pass
-                    
-            
-            
-        #print('matchDataTest',matchData['participantIdentities'])
+        totalGames += 1
+        totalKills += teamKills
+        totalDamage += teamDmg
 
+    print('totalGames',totalGames)
+    print('totalKills',totalKills)
+    print('totalDamage',totalDamage)
     print('ksScoreData2',ksScoreData[0].__dict__)
-
+    
+    ksScoreDataArray = []
+    
+    for summonerKsObject in ksScoreData:
+        summonerKsObject.calculateValues(totalKills,totalDamage)
+        ksScoreDataArray.append(summonerKsObject.__dict__)
+        
+    print('ksScoreData3',ksScoreData[0].__dict__)
+    
+    print('ksScoreData4',ksScoreDataArray[0])
+    
+    print('ksScoreData5',ksScoreDataArray)
+    
+    realData = {
+        'games': totalGames,
+        'kills': totalKills,
+        'damage': totalDamage,
+        'ksScoreData': ksScoreDataArray
+    }
+    
+    
+    
     dummyData = {
         'games': 10,
         'kills': 23,
@@ -121,4 +138,4 @@ def index(request):
     
     #print(dummyData)
     
-    return HttpResponse(json.dumps(dummyData))
+    return HttpResponse(json.dumps(realData))
