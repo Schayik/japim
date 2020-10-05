@@ -19,9 +19,9 @@ class ksScoreObject:
         self.damagePercentage   = 0.0
         
     def calculateValues(self,totalKills,TotalDamage):
-        self.killPercentage = self.kills / totalKills
-        self.damagePercentage = self.damage / TotalDamage
-        self.ksScore = self.killPercentage / self.damagePercentage
+        self.killPercentage = toolbox.divByZeroAllowed(self.kills, totalKills)
+        self.damagePercentage = toolbox.divByZeroAllowed(self.damage, TotalDamage)
+        self.ksScore = toolbox.divByZeroAllowed(self.killPercentage, self.damagePercentage)
         
     def ksScoreOutput(self):
         returnObj = {
@@ -43,7 +43,7 @@ def index(request):
         print('summoners!',inputArray)
         
     except:
-        inputArray = ['djep0','Chris EDEN']
+        inputArray = ['djep0','Chris EDEN'] #Chris EDEN
         pass
     
     print(inputArray)
@@ -81,7 +81,7 @@ def index(request):
     for matchID in matchesToLoad:
         start = time.process_time()
         matchData = apiFunctions.Get_MatchData(matchID)
-        print ('find API call time: ', (time.process_time() - start) *1000)
+        # print ('find API call time: ', (time.process_time() - start) *1000)
         commonTeam = toolbox.checkSameTeams(matchData['participantIdentities'],matchData['participants'],summonerList)
         if commonTeam:
             pass
