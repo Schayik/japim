@@ -11,6 +11,8 @@ django-cors-headers = "*"
 requests = "*"
 gunicorn = "*"
 django-heroku = "*"
+djangorestframework = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.8"
