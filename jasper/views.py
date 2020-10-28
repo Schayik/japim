@@ -5,7 +5,7 @@ import requests
 import json
 import time
 
-from teams.models import Team
+from teams.models import Team, Summoner
 
 
 from . import apiFunctions
@@ -41,7 +41,12 @@ def t1(x):
     cheese_blog = Team.objects.get(pk=x)
     print("t3",cheese_blog)
     cheese_blog.status = "FETCH_IDS"
+    inputArray = ['djep0','Schayik']
+    for summonerName in inputArray:
+        Summoner.objects.create(team=cheese_blog,name=summonerName)
     cheese_blog.save()
+    print("t4",cheese_blog.summoner_count())
+    
 
 
 def index(request):
