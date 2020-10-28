@@ -10,7 +10,7 @@ def Invoke_API (method,request,extras=''):
     requestURL = baseURL + method + request + '?api_key=' + apiKey
     response = requests.get(requestURL)
     responseData = response.json()
-    print('api1',responseData)
+    #print('api1',responseData)
     return responseData
 
 def Get_AccountID (summonerName):
