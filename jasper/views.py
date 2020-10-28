@@ -5,6 +5,8 @@ import requests
 import json
 import time
 
+from teams.models import Team
+
 
 from . import apiFunctions
 from . import toolbox
@@ -33,6 +35,14 @@ class ksScoreObject:
             'damagePercentage' : '{:.2f}%'.format(self.damagePercentage*100)    ,
         }
         return returnObj
+
+def t1(x):
+    print("t1",x)
+    cheese_blog = Team.objects.get(pk=x)
+    print("t3",cheese_blog)
+    cheese_blog.status = "FETCH_IDS"
+    cheese_blog.save()
+
 
 def index(request):
 

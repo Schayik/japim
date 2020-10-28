@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from teams.models import Team
 from teams.serializers import TeamSerializer
+from jasper.views import t1
 
 
 @api_view(['GET', 'POST'])
@@ -19,6 +20,8 @@ def team_list(request):
         serializer = TeamSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            t1(serializer.data["id"])
+            print("t2",serializer.data["id"])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
