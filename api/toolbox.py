@@ -8,9 +8,15 @@ def checkSameTeams (ids,stats,names):
     partTeams = list(map(lambda x: x['teamId'],partStats))
     teamList = list(set(partTeams))
     
-    print('teamList',teamList)
+    # print('teamList',teamList)
 
     if len(teamList) == 1:
         return teamList[0]
     else:
         return False
+        
+def divByZeroAllowed (n, d): 
+    if d == 0:
+        return 0
+    else:
+        return n/d
