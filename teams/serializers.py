@@ -24,5 +24,11 @@ class TeamSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'status']
 
     def create(self, validated_data):
-        print(validated_data)
-        return super().create({})
+        team = super().create({})
+
+        for summoner_name in validated_data['summoner_names']:
+            Summoner.objects.create(team=team, name=summoner_name)
+
+        # TODO: start asynchronous task van Jasper
+
+        return team

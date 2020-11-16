@@ -8,6 +8,6 @@ class TeamList(generics.ListCreateAPIView):
     serializer_class = TeamSerializer
 
 
-class TeamDetail(generics.RetrieveUpdateDestroyAPIView):
+class TeamDetail(generics.RetrieveDestroyAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
