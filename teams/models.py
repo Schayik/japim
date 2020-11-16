@@ -21,11 +21,15 @@ class Team(models.Model):
         choices=STATUS_CHOICES,
         default=WAITING,
     )
-    def summoner_count(self):
-        return self.summoners.count()
+
+    def __str__(self):
+        return str(self.pk)
 
 
 class Summoner(models.Model):
     name = models.CharField(max_length=200)
-    riot_id = models.CharField(max_length=200 , blank=True)
+    riot_id = models.CharField(max_length=200, blank=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="summoners")
+
+    def __str__(self):
+        return self.name
