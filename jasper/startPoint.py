@@ -16,12 +16,12 @@ from background_task import background
 #    user.email_user('Here is a notification', 'You have been notified')
 
 @background(schedule=1)
-def startPoint(request):
-    print("t2 ", request)
+def startPoint(team_id):
+    print("t2 ", team_id)
     print("making process")
     print("started process")
     time.sleep(10)
-    t1(request)
+    t1(team_id)
     time.sleep(10)
-    index(request)
+    index(team_id)
     return 1
