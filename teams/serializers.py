@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from teams.models import Team, Summoner
 
+from jasper.startPoint import startPoint
 
 class SummonerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,6 +30,6 @@ class TeamSerializer(serializers.ModelSerializer):
         for summoner_name in validated_data['summoner_names']:
             Summoner.objects.create(team=team, name=summoner_name)
 
-        # TODO: start asynchronous task van Jasper
-
+        startPoint(team.id)
+        
         return team

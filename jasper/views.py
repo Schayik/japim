@@ -6,6 +6,7 @@ import json
 import time
 
 from teams.models import Team, Summoner
+from jasper.toolbox import f
 
 
 from . import apiFunctions
@@ -47,10 +48,15 @@ def t1(x):
     cheese_blog.save()
     print("t4",cheese_blog.summoner_count())
     
+#def startPoint(request):
+#    summonerList = request["summoners"].split(",")
+#    print("t2 ", summonerList)
+#
+#    return 1
 
 
 def index(request):
-
+    print('t4 ',request)
     try:
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
@@ -58,11 +64,13 @@ def index(request):
         print('summoners!',inputArray)
         
     except:
-        inputArray = ['djep0','Chris EDEN'] #Chris EDEN
+        inputArray = ['djep0','snitsky'] #Chris EDEN
         pass
     
     print(inputArray)
-
+    #f('bob')
+    
+    
     #api_key = config('RIOT_KEY')
     #response = requests.get('https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/Schayik?api_key=' + api_key)
     #data = response.json()

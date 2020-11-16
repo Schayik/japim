@@ -19,6 +19,7 @@ def Invoke_API (method,request,extras='',retryTimeOut=0,safetyValue=0,r=''):
     baseURL = 'https://euw1.api.riotgames.com/'
     apiKey = config('RIOT_KEY')
     requestURL = baseURL + method + request + '?api_key=' + apiKey
+    print("req: ", requestURL)
     response = requests.get(requestURL)
     
     if response.status_code == 200:

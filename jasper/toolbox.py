@@ -1,4 +1,6 @@
 import json
+import time
+from multiprocessing import Process
 
 def checkSameTeams (ids,stats,names):
     participants = list(filter( lambda part: part['player']['summonerName'] in (names), ids))
@@ -20,3 +22,37 @@ def divByZeroAllowed (n, d):
         return 0
     else:
         return n/d
+        
+def f(name):
+    print('hello', name)
+    g = open("myfile3.txt", "x")
+    time.sleep(10)
+    print('doei', name)
+    g.write("Now the file has more content!")
+    g.close()
+    
+def startPoint(request):
+    summonerList = request["summoners"].split(",")
+    print("t2 ", summonerList)
+    print("making process")
+    p = Process(target=index, args=(summonerList,))
+    time.sleep(1)
+    p.start()
+    print("started process")
+    return 1
+    
+    
+
+    
+#def test_teams(self):
+#print('psv')
+#
+#p = Process(target=f, args=('bob',))
+#time.sleep(1)
+#print('testje')
+#time.sleep(1)
+#p.start()
+#time.sleep(1)
+#print('wat een kneus')
+##p.join()
+#return 1  

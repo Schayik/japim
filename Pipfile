@@ -13,6 +13,7 @@ gunicorn = "*"
 django-heroku = "*"
 djangorestframework = "*"
 flake8 = "*"
+django-background-tasks = "*"
 
 [requires]
 python_version = "3.8"
