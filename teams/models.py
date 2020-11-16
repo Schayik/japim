@@ -33,3 +33,7 @@ class Summoner(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# class Match(models.Model):
+#     summoner = models.ManyToManyField(Summoner)

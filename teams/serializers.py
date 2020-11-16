@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from teams.models import Team, Summoner
-
 from jasper.startPoint import startPoint
+
 
 class SummonerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,5 +31,5 @@ class TeamSerializer(serializers.ModelSerializer):
             Summoner.objects.create(team=team, name=summoner_name)
 
         startPoint(team.id)
-        
+
         return team
