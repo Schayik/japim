@@ -37,22 +37,39 @@ class ksScoreObject:
         }
         return returnObj
 
-def t1(x):
-    print("t1",x)
-    cheese_blog = Team.objects.get(pk=x)
-    print("t3",cheese_blog)
-    cheese_blog.status = "FETCH_IDS"
-    inputArray = ['djep0','Schayik']
-    for summonerName in inputArray:
-        Summoner.objects.create(team=cheese_blog,name=summonerName)
-    cheese_blog.save()
-    print("t4",cheese_blog.summoner_count())
+#def t1(x):
+#    print("t1",x)
+#    cheese_blog = Team.objects.get(pk=x)
+#    print("t3",cheese_blog)
+#    cheese_blog.status = "FETCH_IDS"
+#    inputArray = ['djep0','Schayik']
+#    for summonerName in inputArray:
+#        Summoner.objects.create(team=cheese_blog,name=summonerName)
+#    cheese_blog.save()
+#    print("t4",cheese_blog.summoner_count())
     
 #def startPoint(request):
 #    summonerList = request["summoners"].split(",")
 #    print("t2 ", summonerList)
 #
 #    return 1
+
+def get_riot_ids(team_id):
+    team = Team.objects.get(pk=team_id)
+    for summoner in team.summoners.all():
+        summonerInfo = apiFunctions.Get_AccountID(summoner.name)
+        summoner.name = summonerInfo['name']
+        summoner.riot_id = summonerInfo['accountId']
+        summoner.save()
+    return
+
+def get_matchlists(team_id):
+    team = Team.objects.get(pk=team_id)
+    for summoner in team.summoners.all():
+        summoner_matchlist = apiFunctions.Get_Matchlist(summoner.riot_id)
+        print("matchlist of summoner: ", summoner.name)
+        print(summoner_matchlist)
+    return
 
 
 def index(request):

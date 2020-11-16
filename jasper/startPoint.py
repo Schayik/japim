@@ -1,8 +1,7 @@
 import json
 import time
 from multiprocessing import Process
-from jasper.views import index
-from jasper.views import t1
+from . import views
 
 from teams.models import Team, Summoner
 
@@ -17,11 +16,33 @@ from background_task import background
 
 @background(schedule=1)
 def startPoint(team_id):
-    print("t2 ", team_id)
-    print("making process")
-    print("started process")
+
+    print("defined process")
     time.sleep(10)
-    t1(team_id)
-    time.sleep(10)
-    index(team_id)
-    return 1
+    
+    print("starting process")
+    team = Team.objects.get(pk=team_id)
+
+    team.status = 'FETCH_IDS'
+    team.save()
+    print("Updated status to FETCH_IDS")
+    
+    time.sleep(5)
+    views.get_riot_ids(team_id)             ## Get Riot IDS
+    time.sleep(5)
+
+    team.status = 'FETCH_MATCH_LISTS'
+    team.save()
+    print("Updated status to FETCH_MATCH_LISTS")
+    
+    time.sleep(5)
+    views.get_matchlists(team_id)           ## Get Matchlists
+    time.sleep(5)
+    
+    team.status = 'FETCH_MATCHES'
+    team.save()
+    print("Updated status to FETCH_MATCHES")
+    
+    ## GET MATCHES HERE
+
+    return
