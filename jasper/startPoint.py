@@ -1,7 +1,7 @@
 import json
 import time
 from multiprocessing import Process
-from . import views
+from jasper import tasks
 
 from teams.models import Team, Summoner
 
