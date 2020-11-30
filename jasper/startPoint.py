@@ -28,7 +28,7 @@ def startPoint(team_id):
     print("Updated status to FETCH_IDS")
     
     time.sleep(5)
-    views.get_riot_ids(team_id)             ## Get Riot IDS
+    tasks.get_riot_ids(team_id)             ## Get Riot IDS
     time.sleep(5)
 
     team.status = 'FETCH_MATCH_LISTS'
@@ -36,7 +36,7 @@ def startPoint(team_id):
     print("Updated status to FETCH_MATCH_LISTS")
     
     time.sleep(5)
-    views.get_matchlists(team_id)           ## Get Matchlists
+    tasks.get_matchlists(team_id)           ## Get Matchlists
     time.sleep(5)
     
     team.status = 'FETCH_MATCHES'
