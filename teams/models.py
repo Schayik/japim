@@ -35,5 +35,10 @@ class Summoner(models.Model):
         return self.name
 
 
-# class Match(models.Model):
-#     summoner = models.ManyToManyField(Summoner)
+class SummonerMatch(models.Model):
+    summoner = models.ForeignKey(Summoner, on_delete=models.CASCADE, related_name="matches")
+    match_id = models.IntegerField()
+
+
+class Match(models.Model):
+    result = models.JSONField()
