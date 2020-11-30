@@ -34,10 +34,10 @@ class Summoner(models.Model):
     def __str__(self):
         return self.name
 
-
 class Match(models.Model):
     id = models.PositiveBigIntegerField(primary_key=True)
     data = models.JSONField()
 
     def __str__(self):
         return str(self.pk)
+
