@@ -41,4 +41,4 @@ class SummonerMatch(models.Model):
 
 
 class Match(models.Model):
-    result = models.JSONField()
+    data = models.JSONField()
