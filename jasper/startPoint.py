@@ -33,6 +33,12 @@ def startPoint(team_id):
     team.save()
     print("Updated status to FETCH_MATCHES")
 
-    # GET MATCHES HERE
-
+    time.sleep(5)
+    tasks.get_matches(team_id)              # Get Matches
+    time.sleep(5)
+    
+    team.status = 'COMPLETED'
+    team.save()
+    print("Updated status to COMPLETED")
+    
     return

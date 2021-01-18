@@ -5,7 +5,7 @@ import requests
 import json
 import time
 
-from teams.models import Team, Summoner, SummonerMatch
+from teams.models import Team, Summoner, SummonerMatch, Match
 from jasper.toolbox import f
 
 
@@ -72,20 +72,19 @@ def get_matchlists(team_id):
         for match_id in summoner_matchlist:
             SummonerMatch.objects.create(summoner=summoner, match_id=match_id)
     return
-#    
-#def get_matches(team_id):
-#    team = Team.objects.get(pk=team_id)
-#    matchlistArray = []
-#    for summoner in team.summoners.all():
-#        matchlist = []
-#        for match_id in summoner.matches.all():
-#            matchlist.append(match_id)
-#        matchlistArray.append(matchlist) 
-#    matchesToLoad = set(matchlistArray[0]).intersection(*matchlistArray)        
-#    for matchID in matchesToLoad:
-#        start = time.process_time()
-#        matchData = apiFunctions.Get_MatchData(matchID)
-#    return
+    
+def get_matches(team_id):
+    team = Team.objects.get(pk=team_id)
+    matchlistArray = [
+            summoner.matches.all().values_list('match_id', flat=True)
+            for summoner in team.summoners.all()
+        ]
+    matchesToLoad = set(matchlistArray[0]).intersection(*matchlistArray[1:]) 
+    print("matches to load: ",matchesToLoad)
+    for match_id in matchesToLoad:
+        matchData = apiFunctions.Get_MatchData(match_id)
+        Match.objects.create(id=match_id,data=matchData)
+    return
 
 
 def index(request):

@@ -45,3 +45,6 @@ class SummonerMatch(models.Model):
 
 class Match(models.Model):
     data = models.JSONField()
+    
+    def __str__(self):
+        return str(self.pk)
