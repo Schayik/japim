@@ -79,7 +79,7 @@ def get_matches(team_id):
             summoner.matches.all().values_list('match_id', flat=True)
             for summoner in team.summoners.all()
         ]
-    matchesToLoad = set(matchlistArray[0]).intersection(*matchlistArray[1:]) 
+    matchesToLoad = set(matchlistArray[0]).intersection(*matchlistArray) 
     print("matches to load: ",matchesToLoad)
     for match_id in matchesToLoad:
         matchData = apiFunctions.Get_MatchData(match_id)
