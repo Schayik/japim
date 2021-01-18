@@ -82,8 +82,9 @@ def get_matches(team_id):
     matchesToLoad = set(matchlistArray[0]).intersection(*matchlistArray) 
     print("matches to load: ",matchesToLoad)
     for match_id in matchesToLoad:
-        matchData = apiFunctions.Get_MatchData(match_id)
-        Match.objects.create(id=match_id,data=matchData)
+        if not Match.objects.filter(pk=match_id).exists():
+            matchData = apiFunctions.Get_MatchData(match_id)
+            Match.objects.create(id=match_id,data=matchData)
     return
 
 
