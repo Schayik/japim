@@ -38,6 +38,9 @@ class Summoner(models.Model):
 class SummonerMatch(models.Model):
     summoner = models.ForeignKey(Summoner, on_delete=models.CASCADE, related_name="matches")
     match_id = models.IntegerField()
+    
+    def __str__(self):
+        return str(self.match_id)
 
 
 class Match(models.Model):
