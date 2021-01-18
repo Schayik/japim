@@ -8,7 +8,7 @@ class TeamsTestCase(TestCase):
         team = Team.objects.create()
 
         # adding summoners
-        for name in ["djep0", "schayik"]:
+        for name in ["djep0", "schayik", "dirco"]:
             summoner = Summoner(team=team, name=name)
             summoner.save()
             team.summoners.add(summoner)
@@ -20,22 +20,16 @@ class TeamsTestCase(TestCase):
             summoner.riot_id = index
             summoner.save()
 
-        # create summoner matcher
+        # create summoner matches
         for (i, summoner) in enumerate(team.summoners.all()):
             for j in range(1, (i + 1) * 10, i + 1):
                 summoner_match = SummonerMatch(summoner=summoner, match_id=j)
                 summoner_match.save()
 
         # obtain overlapping matches
-        # TODO: mooier maken
-        first_summoner = team.summoners.all().first()
-        intersection = [match.match_id for match in first_summoner.matches.all()]
-
-        for (index, summoner) in enumerate(team.summoners.all()):
-            if index == 0:
-                pass
-
-            match_ids = [match.match_id for match in summoner.matches.all()]
-            intersection = list(set(intersection) & set(match_ids))
-
-        print(intersection)
+        matchlistArray = [
+            summoner.matches.all().values_list('match_id', flat=True)
+            for summoner in team.summoners.all()
+        ]
+        matchesToLoad = set(matchlistArray[0]).intersection(*matchlistArray[1:])
+        print(matchesToLoad)
