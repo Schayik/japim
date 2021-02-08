@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'teams',
-  #  'jasper', # TODO: Ooit uitfaseren, bestanden naar andere map verplaatsen
+    # 'jasper', # TODO: Ooit uitfaseren, bestanden naar andere map verplaatsen
     'background_task',
 ]
 
