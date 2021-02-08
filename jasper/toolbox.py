@@ -9,8 +9,6 @@ def checkSameTeams (ids,stats,names):
     partStats = list(filter( lambda part: part['participantId'] in (partIds), stats))
     partTeams = list(map(lambda x: x['teamId'],partStats))
     teamList = list(set(partTeams))
-    
-    # print('teamList',teamList)
 
     if len(teamList) == 1:
         return teamList[0]
@@ -40,19 +38,3 @@ def startPoint(request):
     p.start()
     print("started process")
     return 1
-    
-    
-
-    
-#def test_teams(self):
-#print('psv')
-#
-#p = Process(target=f, args=('bob',))
-#time.sleep(1)
-#print('testje')
-#time.sleep(1)
-#p.start()
-#time.sleep(1)
-#print('wat een kneus')
-##p.join()
-#return 1  
