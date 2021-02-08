@@ -6,10 +6,8 @@ import json
 import time
 
 from teams.models import Team, Summoner, SummonerMatch, Match
-from jasper.toolbox import f
 
-
-from . import apiFunctions
+from riot_api import apiFunctions
 from . import toolbox
 
 #class ksScoreObject:
