@@ -1,5 +1,5 @@
 import time
-from jasper import tasks
+from . import tasks
 from teams.models import Team
 from background_task import background
 

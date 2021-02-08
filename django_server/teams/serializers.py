@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from teams.models import Team, Summoner, SummonerMatch, Match
-from jasper.startPoint import startPoint
+from tasks.startPoint import startPoint
 
 
 class SummonerSerializer(serializers.ModelSerializer):
