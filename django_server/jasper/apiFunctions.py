@@ -19,12 +19,12 @@ def Invoke_API (method,request,extras='',retryTimeOut=0,safetyValue=0,r=''):
     baseURL = 'https://euw1.api.riotgames.com/'
     apiKey = config('RIOT_KEY')
     requestURL = baseURL + method + request + '?api_key=' + apiKey
-    print("req: ", requestURL)
+    # print("req: ", requestURL)
     response = requests.get(requestURL)
     
     if response.status_code == 200:
         pass
-        print('Call succesfull')
+        # print('Call succesfull')
     elif response.status_code == 429:  
         retryTimeOutStr = response.headers['retry-after']
         safetyValue+=1
@@ -38,7 +38,7 @@ def Invoke_API (method,request,extras='',retryTimeOut=0,safetyValue=0,r=''):
         response = Invoke_API(method,request,extras,int(retryTimeOutStr),safetyValue,response)
         return response
     
-    print('end of function returning response, response value = ',response)
+    # print('end of function returning response, response value = ',response)
     responseData = response.json()
     return responseData
 
